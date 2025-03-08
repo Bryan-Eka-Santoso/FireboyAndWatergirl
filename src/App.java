@@ -18,35 +18,27 @@ public class App {
     public static void main(String[] args) throws Exception {
         int menuAwal, player = 0;
         String keyGame;
-        int coin = 0;
-        boolean win = false;
-        boolean door = false;
+        int currentCoin = 0;
+        boolean currentWin = false;
 
         Scanner scanI = new Scanner(System.in);
         Scanner scanS = new Scanner(System.in);
 
-        int xb = 2, yb = 9;
-        int xg = 1, yg = 9;
-
-        // 1 =
-        // 2 |
-        // 3 Fireboy B
-        // 4 Watergirl G
-
-        int[][] map = {
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+        char[][] map = {
+            {'=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '='},
+            {'|', ' ', ' ', 'C', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ']', '[', ' ', '|'},
+            {'=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', ' ', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '='},
+            {'|', ' ', ' ', ' ', ' ', ' ', 'E', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
+            {'=', '=', ' ', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', ' ', '=', '='},
+            {'|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'C', ' ', ' ', ' ', ' ', '|'},
+            {'=', '=', '=', 'W', 'W', 'W', 'W', 'W', '=', '=', '-', '-', '-', '=', '=', '=', '=', '=', '=', '=', '=', '=', '='},
+            {'|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'T', ' ', '|'},
+            {'=', '=', '=', '=', ' ', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', '=', ' ', '=', '=', '=', '='},
+            {'|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
+            {'=', '=', '=', '=', '=', '=', '=', '=', '=', 'L', 'L', 'L', 'L', 'L', '=', '=', '=', '=', '=', '=', '=', '=', '='}
         };
 
+        
         do {
             System.out.println("== Fire Boy & Water Girl ==");
             System.out.println("1. Play");
@@ -56,8 +48,25 @@ public class App {
                 System.out.print(">> ");
                 menuAwal = scanI.nextInt();
             } while (menuAwal < 1 || menuAwal > 3);
-
+            
             if(menuAwal == 1){
+                boolean trapDoor = false;
+                boolean kenaTrap = false;
+                boolean exitDoor = false;
+                boolean fbDone = false;
+                boolean wgDone = false;
+                int coin = 0;
+                boolean win = false;
+                char[][] mapChar = new char[11][23];
+                for (int i = 0; i < map.length; i++) {
+                    for (int j = 0; j < map[0].length; j++) {
+                        mapChar[i][j] = map[i][j];
+                    }
+                }
+
+                int xb = 2, yb = 9;
+                int xg = 1, yg = 9;
+
                 do {
                     if(player % 2 == 0){
                         System.out.println("Current Turn: Fire Boy");
@@ -65,22 +74,27 @@ public class App {
                         System.out.println("Current Turn: Water Girl");
                     }
 
-                    for(int i = 0; i < 11; i++){
-                        for(int j = 0; j < 23; j++){
-                            map[yb][xb] = 3; 
-                            map[yg][xg] = 4; 
+                    if(trapDoor){
+                        mapChar[6][10] = ' ';
+                        mapChar[6][11] = ' ';
+                        mapChar[6][12] = ' ';
+                    }
 
-                            if(map[i][j] == 1){
-                                System.out.print("=");
-                            } else if(map[i][j] == 2){
-                                System.out.print("|");
-                            } else if(map[i][j] == 3){
-                                System.out.print("B");
-                            } else if(map[i][j] == 4){
-                                System.out.print("G");
-                            } else {
-                                System.out.print(" ");
+                    if(exitDoor){
+                        mapChar[1][19] = '[';
+                        mapChar[1][20] = ']';
+                    }
+
+                    for(int i = 0; i < mapChar.length; i++){
+                        for(int j = 0; j < mapChar[0].length; j++){
+                            if(mapChar[yg][xg] != '['){
+                                mapChar[yg][xg] = 'G';
                             }
+                            
+                            if(mapChar[yb][xb] != '['){
+                                mapChar[yb][xb] = 'B';
+                            }
+                            System.out.print(mapChar[i][j]);
                         }
                         System.out.println();
                     }
@@ -94,55 +108,142 @@ public class App {
                     keyGame = scanS.nextLine();
 
                     if(player % 2 == 0){
-                        if(keyGame.charAt(0) == 'A' && map[yb][xb+1] == 0){
-                            map[yb][xb] = 0;
-                            xb++;
-                            player++;
-                        } else if (keyGame.charAt(0) == 'D' && map[yb][xb-1] == 0){
-                            map[yb][xb] = 0;
+                        if(keyGame.equals("a") && mapChar[yb][xb-1] != '|' && mapChar[yb][xb-1] != ']'){
+                            mapChar[yb][xb] = ' ';
                             xb--;
-                            player++;
-                        } else if (keyGame.charAt(0) == 'Q'){
-
-                        } else if (keyGame.charAt(0) == 'E'){
-
+                            if(mapChar[yb+1][xb] == ' '){
+                                mapChar[yb][xb] =  ' ';
+                                yb+= 2;
+                            } else if (mapChar[yb+1][xb] == 'W'){
+                                mapChar[yb][xb] =  ' ';
+                                kenaTrap = true;
+                            } else if (mapChar[yb][xb] == 'T'){
+                                trapDoor = true;
+                            } else if (mapChar[yb][xb] == 'C'){
+                                coin++;
+                            } else if (mapChar[yb][xb] == 'E'){
+                                exitDoor = true;
+                            }
+                        } else if (keyGame.equals("d") && mapChar[yb][xb+1] != '|' && mapChar[yb][xb+1] != ']'){
+                            mapChar[yb][xb] = ' ';
+                            xb++;
+                            if(mapChar[yb+1][xb] == ' '){
+                                mapChar[yb][xb] =  ' ';
+                                yb+= 2;
+                            } else if (mapChar[yb+1][xb] == 'W'){
+                                mapChar[yb][xb] =  ' ';
+                                kenaTrap = true;
+                            } else if (mapChar[yb][xb] == 'T'){
+                                trapDoor = true;
+                            } else if (mapChar[yb][xb] == 'C'){
+                                coin++;
+                            } else if (mapChar[yb][xb] == 'E'){
+                                exitDoor = true;
+                            } else if (mapChar[yb][xb] == '['){
+                                fbDone = true;
+                                player++;
+                            }
+                        } else if (keyGame.equals("q") && mapChar[yb-1][xb] == ' '){
+                            mapChar[yb][xb] = ' ';
+                            xb--;
+                            if(mapChar[yb-1][xb] == '='){
+                                yb -= 2;
+                            }
+                        } else if (keyGame.equals("e") && mapChar[yb-1][xb] == ' '){
+                            mapChar[yb][xb] = ' ';
+                            xb++;
+                            if(mapChar[yb-1][xb] == '='){
+                                yb -= 2;
+                            }
                         }
                     } else {
-                        if(keyGame.charAt(0) == 'A' && map[yg][xg+1] == 0){
-                            map[yg][xg] = 0;
-                            xg++;
-                            player++;
-                        } else if (keyGame.charAt(0) == 'D' && map[yg][xg-1] == 0){
-                            map[yg][xg] = 0;
+                        if(keyGame.equals("a") && mapChar[yg][xg-1] != '|' && mapChar[yg][xg-1] != ']'){
+                            mapChar[yg][xg] = ' ';
                             xg--;
-                            player++;
-                        } else if (keyGame.charAt(0) == 'Q'){
-
-                        } else if (keyGame.charAt(0) == 'E'){
-
+                            if(mapChar[yg+1][xg] == ' '){
+                                mapChar[yg][xg] =  ' ';
+                                yg+= 2;
+                            } else if (mapChar[yg+1][xg] == 'L'){
+                                mapChar[yg][xg] =  ' ';
+                                kenaTrap = true;
+                            } else if (mapChar[yg][xg] == 'T'){
+                                trapDoor = true;
+                            } else if (mapChar[yg][xg] == 'C'){
+                                coin++;
+                            } else if (mapChar[yg][xg] == 'E'){
+                                exitDoor = true;
+                            }
+                        } else if (keyGame.equals("d") && mapChar[yg][xg+1] != '|' && mapChar[yg][xg+1] != ']'){
+                            mapChar[yg][xg] =  ' ';
+                            xg++;
+                            if(mapChar[yg+1][xg] == ' '){
+                                mapChar[yg][xg] =  ' ';
+                                yg+= 2;
+                            } else if (mapChar[yg+1][xg] == 'L'){
+                                mapChar[yg][xg] =  ' ';
+                                kenaTrap = true;
+                            } else if (mapChar[yg][xg] == 'T'){
+                                trapDoor = true;
+                            } else if (mapChar[yg][xg] == 'C'){
+                                coin++;
+                            } else if (mapChar[yg][xg] == 'E'){
+                                exitDoor = true;
+                            } else if (mapChar[yg][xg] == '['){
+                                wgDone = true;
+                                player++;
+                            }
+                        } else if (keyGame.equals("q") && mapChar[yg-1][xg] == ' '){
+                            mapChar[yg][xg] = ' ';
+                            xg--;
+                            if(mapChar[yg-1][xg] == '='){
+                                yg -= 2;
+                            }
+                        } else if (keyGame.equals("e") && mapChar[yg-1][xg] == ' '){
+                            mapChar[yg][xg] = ' ';
+                            xg++;
+                            if(mapChar[yg-1][xg] == '='){
+                                yg -= 2;
+                            }
                         }
                     }
-                    clear();
-                } while (keyGame.charAt(0) != '0');
 
-                if(keyGame.charAt(0) == '0'){
+                    if (wgDone && fbDone){
+                        win = true;
+                    }
+
+                    if(!wgDone && !fbDone){
+                        player++;
+                    }
+
+                    clear();
+                } while (!keyGame.equals("0") && !kenaTrap && !win);
+
+                if(keyGame.equals("0") || kenaTrap){
                     System.out.println("Game Over!");
                 } else {
+                    if(currentCoin < coin){
+                        currentCoin = coin;
+                    }
+
+                    if(!currentWin){
+                        currentWin = true;
+                    }
+
                     System.out.println("You Win!");
-                    coin = 0;
-                    win = false;
                 }
 
             } else if (menuAwal == 2){
                 System.out.println("= Your Progress =");
-                System.out.println("Coin: " + coin + "/2");
-                if(win){
+                System.out.println("Coin: " + currentCoin + "/2");
+                if(currentWin){
                     System.out.println("Exit Reached!");
                 } else {
                     System.out.println("Exit Not Reached Yet!");
                 }
             }
-
         } while (menuAwal !=3);
+
+        scanI.close();
+        scanS.close();
     }
 }

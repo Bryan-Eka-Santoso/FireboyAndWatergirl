@@ -1,20 +1,6 @@
 import java.util.*;
 
 public class App {
-    // For System("Cls");
-    public static void clear() {
-        try {
-            if (System.getProperty("os.name").contains("Windows")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                System.out.print("\033[H\033[2J");
-                System.out.flush();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public static void main(String[] args) throws Exception {
         int menuAwal, player = 0;
         String keyGame;
@@ -111,6 +97,9 @@ public class App {
                         if(keyGame.equals("a") && mapChar[yb][xb-1] != '|' && mapChar[yb][xb-1] != ']'){
                             mapChar[yb][xb] = ' ';
                             xb--;
+                            if(!wgDone && !fbDone){
+                                player++;
+                            }
                             if(mapChar[yb+1][xb] == ' '){
                                 mapChar[yb][xb] =  ' ';
                                 yb+= 2;
@@ -127,6 +116,9 @@ public class App {
                         } else if (keyGame.equals("d") && mapChar[yb][xb+1] != '|' && mapChar[yb][xb+1] != ']'){
                             mapChar[yb][xb] = ' ';
                             xb++;
+                            if(!wgDone && !fbDone){
+                                player++;
+                            }
                             if(mapChar[yb+1][xb] == ' '){
                                 mapChar[yb][xb] =  ' ';
                                 yb+= 2;
@@ -141,17 +133,22 @@ public class App {
                                 exitDoor = true;
                             } else if (mapChar[yb][xb] == '['){
                                 fbDone = true;
-                                player++;
                             }
                         } else if (keyGame.equals("q") && mapChar[yb-1][xb] == ' '){
                             mapChar[yb][xb] = ' ';
                             xb--;
+                            if(!wgDone && !fbDone){
+                                player++;
+                            }
                             if(mapChar[yb-1][xb] == '='){
                                 yb -= 2;
                             }
                         } else if (keyGame.equals("e") && mapChar[yb-1][xb] == ' '){
                             mapChar[yb][xb] = ' ';
                             xb++;
+                            if(!wgDone && !fbDone){
+                                player++;
+                            }
                             if(mapChar[yb-1][xb] == '='){
                                 yb -= 2;
                             }
@@ -160,6 +157,9 @@ public class App {
                         if(keyGame.equals("a") && mapChar[yg][xg-1] != '|' && mapChar[yg][xg-1] != ']'){
                             mapChar[yg][xg] = ' ';
                             xg--;
+                            if(!wgDone && !fbDone){
+                                player++;
+                            }
                             if(mapChar[yg+1][xg] == ' '){
                                 mapChar[yg][xg] =  ' ';
                                 yg+= 2;
@@ -176,6 +176,9 @@ public class App {
                         } else if (keyGame.equals("d") && mapChar[yg][xg+1] != '|' && mapChar[yg][xg+1] != ']'){
                             mapChar[yg][xg] =  ' ';
                             xg++;
+                            if(!wgDone && !fbDone){
+                                player++;
+                            }
                             if(mapChar[yg+1][xg] == ' '){
                                 mapChar[yg][xg] =  ' ';
                                 yg+= 2;
@@ -190,17 +193,22 @@ public class App {
                                 exitDoor = true;
                             } else if (mapChar[yg][xg] == '['){
                                 wgDone = true;
-                                player++;
                             }
                         } else if (keyGame.equals("q") && mapChar[yg-1][xg] == ' '){
                             mapChar[yg][xg] = ' ';
                             xg--;
+                            if(!wgDone && !fbDone){
+                                player++;
+                            }
                             if(mapChar[yg-1][xg] == '='){
                                 yg -= 2;
                             }
                         } else if (keyGame.equals("e") && mapChar[yg-1][xg] == ' '){
                             mapChar[yg][xg] = ' ';
                             xg++;
+                            if(!wgDone && !fbDone){
+                                player++;
+                            }
                             if(mapChar[yg-1][xg] == '='){
                                 yg -= 2;
                             }
@@ -211,15 +219,13 @@ public class App {
                         win = true;
                     }
 
-                    if(!wgDone && !fbDone){
-                        player++;
-                    }
-
-                    clear();
                 } while (!keyGame.equals("0") && !kenaTrap && !win);
 
                 if(keyGame.equals("0") || kenaTrap){
                     System.out.println("Game Over!");
+                    if(currentCoin < coin){
+                        currentCoin = coin;
+                    }
                 } else {
                     if(currentCoin < coin){
                         currentCoin = coin;
